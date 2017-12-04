@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\converter-gson\2.3.0\9e09011e9767bb76b5e27c9b8223476b93b14631\converter-gson-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\converter-gson-2.3.0_11fcde7a92d8359004b376a417d390dd7a933477.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.8.0\5a11f020cce2d11eb71ba916700600e18c4547e7\okhttp-3.8.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="5a11f020cce2d11eb71ba916700600e18c4547e7">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\okhttp-3.8.0_4c1d81918818025fd4d52466ca3c09bc2befc287.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.android\build-cache\ccbce004a096b4beaa5ea06d9be0b52e920cd5d7\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="6a2bcb61342d09fe9acf55c9daf63961c8866cc0">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\classes_1f76687d04c1cdc296c58135271816bbf745d746.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\org.reactivestreams\reactive-streams\1.0.0\14b8c877d98005ba3941c9257cfe09f6ed0e0d74\reactive-streams-1.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="14b8c877d98005ba3941c9257cfe09f6ed0e0d74">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\reactive-streams-1.0.0_3ee186653236924ceb999217433141f84e2f3a06.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.jakewharton.retrofit\retrofit2-rxjava2-adapter\1.0.0\e117362a2103f8ec01091ebd2f40aca4e1ada599\retrofit2-rxjava2-adapter-1.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="e117362a2103f8ec01091ebd2f40aca4e1ada599">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\retrofit2-rxjava2-adapter-1.0.0_dbb78034be0cd6d1069d693d23bbaee511881527.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\picasso-2.5.2_304268166b903f3e0bc62ae6c299235ddff7ba9b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\io.reactivex.rxjava2\rxjava\2.0.1\57f850a6b317e5582f1dbaff10a9e7d7e1fcdcfb\rxjava-2.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="57f850a6b317e5582f1dbaff10a9e7d7e1fcdcfb">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\rxjava-2.0.1_b90ea2ba5ada7f5738e986101e1d333f6922af77.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit2\retrofit\2.3.0\bcacde6a8ccedcc56c127403d26b76072fe6214d\retrofit-2.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="bcacde6a8ccedcc56c127403d26b76072fe6214d">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\retrofit-2.3.0_054b344e509adfad62c562eff9a45933274d9412.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife-annotations\8.8.1\bc373fb6bc7bca3035041b924f158fd2b946ee8d\butterknife-annotations-8.8.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="bc373fb6bc7bca3035041b924f158fd2b946ee8d">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\butterknife-annotations-8.8.1_adda5e172ee41a4d7cf3d2a720dbbfebdafafee0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.android\build-cache\754d94beeffce064cdce2440ffb5095a21cf7825\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\classes_717f1dae83521553f4c186c9f09b09889150d98d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\okio-1.13.0_b20a200626b4887d03aaae95dbc67eee61780524.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.android\build-cache\c354765692cb2a899a9c33cb47df6de3b12ca4cb\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="4119ea97a7191ff9b8f33b534ea220448f62f491">
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\classes_44b86c8e081ce870356814e504b0b5cc089a457e.jar" />
+    </item>
+
+</items>

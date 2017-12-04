@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Photozig Desafio</string>
+    <string name="baixar">Baixar</string>
+    <string name="vizualizar">Vizualizar</string>
+    <string name="description_imagem_blue_of_line">Description - Imagem Blue of line</string>
+    <string name="proximo">Próximo</string>
+    <string name="fechar">Fechar</string>
+</resources>
