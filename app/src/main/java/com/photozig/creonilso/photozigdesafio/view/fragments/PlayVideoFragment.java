@@ -1,33 +1,42 @@
 package com.photozig.creonilso.photozigdesafio.view.fragments;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.TimedText;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.photozig.creonilso.photozigdesafio.Constantes;
 import com.photozig.creonilso.photozigdesafio.R;
 import com.photozig.creonilso.photozigdesafio.api.RetrofitClient;
+import com.photozig.creonilso.photozigdesafio.asynctasks.StoreFilesTask;
+import com.photozig.creonilso.photozigdesafio.model.Filme;
+import com.photozig.creonilso.photozigdesafio.model.TextoFilme;
 import com.photozig.creonilso.photozigdesafio.service.PepblastService;
 
+import org.parceler.Parcels;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -35,12 +44,14 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 
+import static com.photozig.creonilso.photozigdesafio.Constantes.PRIMEIRO_ITEM_DA_LISTA;
+
 /**
  * Created by Creonilso on 02/12/2017.
  */
 
-public class PlayVideoFragment extends DialogFragment
-{
+public class PlayVideoFragment extends DialogFragment implements MediaPlayer.OnCompletionListener {
+
     @BindView(R.id.video_view)
     VideoView mVideoView;
     @BindView(R.id.txv_titulo)
@@ -49,20 +60,33 @@ public class PlayVideoFragment extends DialogFragment
     TextView mTxvTempoFilme;
     @BindView(R.id.pb_video_download)
     ProgressBar mProgressDownloadVideo;
+    @BindView(R.id.btn_proximo)
+    Button mBtnProximo;
 
-    public PlayVideoFragment()
-    {
-        // Required empty public constructor
-    }
+    private PlayVideoFragmentListener mPlayVideoFragmentListener;
+    private MediaPlayer mMediaPlayer;
+    private static final String FILME_KEY = "filme_key";
+    private Filme mFilme;
+    private Retrofit mRetrofit;
+    private MediaController mMediaController;
 
-    public static PlayVideoFragment newInstance()
+    public static PlayVideoFragment newInstance(Filme filme)
     {
-        return new PlayVideoFragment();
+        PlayVideoFragment playVideoFragment = new PlayVideoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(FILME_KEY, Parcels.wrap(filme));
+        playVideoFragment.setArguments(bundle);
+        return playVideoFragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMediaController = new MediaController(getContext());
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer.setOnCompletionListener(this);
+        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mRetrofit = new RetrofitClient().getInstance(getActivity());
     }
 
     @Override
@@ -70,92 +94,110 @@ public class PlayVideoFragment extends DialogFragment
         final View v = inflater.inflate(R.layout.play_video_fragment, container, false);
         if (v != null) {
             ButterKnife.bind(this, v);
-            RetrofitClient retrofitClient = new RetrofitClient();
-            Retrofit retrofit = retrofitClient.getInstance(v.getContext());
+            mFilme = Parcels.unwrap(getArguments().getParcelable(FILME_KEY));
+            mostrarTextosDoFilme();
+            mMediaController.setAnchorView(mVideoView);
 
-            PepblastService pepblastService = new PepblastService(retrofit, v.getContext());
-            pepblastService.baixarVideo("440-BlueLines.mp4")
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<ResponseBody>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {}
-
-                        @Override
-                        public void onNext(ResponseBody value) {
-
-                            StoreFilesTask storeFilesTask = new StoreFilesTask();
-                            storeFilesTask.execute(value.byteStream());
-                            mVideoView.setOnPreparedListener (new MediaPlayer.OnPreparedListener() {
-                                @Override
-                                public void onPrepared(MediaPlayer mp) {
-                                    mp.setLooping(true);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {}
-
-                        @Override
-                        public void onComplete() {}
-                    });
+            mVideoView.setOnPreparedListener (new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                }
+            });
         }
         return v;
     }
 
-    private class StoreFilesTask extends AsyncTask<InputStream, Integer, String> {
-
-        protected String doInBackground(InputStream... inputStreams) {
-            InputStream inputStream = inputStreams[0];
-            final File file = new File(Environment.getExternalStorageDirectory() + File.separator + "440-BlueLines.mp4" );
-            try {
-                OutputStream output = new FileOutputStream(file);
-
-                try {
-                    byte[] buffer = new byte[4 * 1024]; // or other buffer size
-                    int read;
-                    while ((read = inputStream.read(buffer)) != -1) {
-                        output.write(buffer, 0, read);
-                    }
-
-                    output.flush();
-                } finally {
-                    output.close();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    private void mostrarTextosDoFilme() {
+        if (mFilme != null) {
+            if(mFilme.getListaDeTextos() != null && !mFilme.getListaDeTextos().isEmpty()) {
+                TextoFilme textoFilme = mFilme.getListaDeTextos().get(PRIMEIRO_ITEM_DA_LISTA);
+                mTxvTempoFilme.setText(String.format("%s%s", textoFilme.getTempo(), getString(R.string.minutos)));
+                mTxvTituloFilme.setText(textoFilme.getTitulo());
+            }else {
+                mTxvTempoFilme.setVisibility(View.GONE);
+                mTxvTituloFilme.setVisibility(View.GONE);
             }
+        }
+    }
 
-            // publishProgress((int) ((i / (float) count) * 100));
+    @OnClick(R.id.btn_fechar)
+    public void onBtnFecharClicked(View view){
+        pararAudio();
+        pararVideo();
+        getDialog().dismiss();
+    }
 
-            return file.getAbsolutePath();
+    @OnClick(R.id.btn_proximo)
+    public void onBtnProximoClicked(View view){
+        mPlayVideoFragmentListener.onBtnProximoClicked(view, mFilme);
+    }
+
+    public void tocarFilme() {
+        mProgressDownloadVideo.setVisibility(View.GONE);
+        try {
+            mMediaPlayer.setDataSource(getActivity(), Uri.parse(Constantes.LOCAL_ASSETS_DIRETORIO
+                    + File.separator + mFilme.getSom()));
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-            //setProgressPercent(progress[0]);
-        }
+        mVideoView.setMediaController(mMediaController);
+        mVideoView.setVideoURI(Uri.parse(Constantes.LOCAL_ASSETS_DIRETORIO + File.separator + mFilme.getVideo()));
+        mVideoView.requestFocus();
+        mVideoView.start();
+        mBtnProximo.setEnabled(true);
+    }
 
-        @Override
-        protected void onPostExecute(String path) {
-            mProgressDownloadVideo.setVisibility(View.GONE);
-            MediaController mediaController = new MediaController(getContext());
-            mediaController.setVisibility(View.GONE);
-            mediaController.setAnchorView(mVideoView);
-            mVideoView.setMediaController(mediaController);
-            mVideoView.setVideoURI(Uri.parse(path));
-            mVideoView.requestFocus();
-            mVideoView.start();
+    public void mostrarProximoFilme(Filme filme){
+        mFilme = filme;
+        mBtnProximo.setEnabled(false);
+        mostrarTextosDoFilme();
+        mProgressDownloadVideo.setVisibility(View.VISIBLE);
+        pararAudio();
+        pararVideo();
+    }
 
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        mVideoView.pause();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        pararAudio();
+
+    }
+
+    private void pararAudio() {
+        if(mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.reset();
+            mMediaPlayer.stop();
         }
+    }
+
+    private void pararVideo() {
+        if(mVideoView != null && mVideoView.isPlaying()) {
+            mVideoView.stopPlayback();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void setmPlayVideoFragmentListener(PlayVideoFragmentListener mPlayVideoFragmentListener) {
+        this.mPlayVideoFragmentListener = mPlayVideoFragmentListener;
+    }
+
+    public interface PlayVideoFragmentListener {
+
+        void onBtnProximoClicked(View view, Filme filme);
+
     }
 
 }

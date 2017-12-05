@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,10 +7,20 @@
     tools:context="com.photozig.creonilso.photozigdesafio.view.activities.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-
         android:id="@+id/rv_pabplast"
         android:scrollbars="vertical"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_sem_internet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/sem_internet"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:visibility="invisible" />
 
 </LinearLayout>

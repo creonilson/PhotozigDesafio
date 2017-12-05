@@ -1,12 +1,7 @@
 package com.photozig.creonilso.photozigdesafio.service;
 
-import android.content.Context;
-
 import com.photozig.creonilso.photozigdesafio.api.PepblastApi;
-import com.photozig.creonilso.photozigdesafio.api.RetrofitClient;
 import com.photozig.creonilso.photozigdesafio.model.Pepblast;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -19,10 +14,8 @@ import retrofit2.Retrofit;
 public class PepblastService implements IPepblastService {
 
     private  PepblastApi mPepblastApi;
-    private Context mContext;
 
-    public PepblastService(Retrofit retrofit, Context mContext) {
-        this.mContext = mContext;
+    public PepblastService(Retrofit retrofit) {
         this.mPepblastApi = retrofit.create(PepblastApi.class);
     }
 
@@ -32,8 +25,8 @@ public class PepblastService implements IPepblastService {
     }
 
     @Override
-    public Observable<ResponseBody> baixarVideo(String videoName) {
-        return mPepblastApi.baixarVideo(videoName);
+    public Observable<ResponseBody> baixarArquivo(String arquivoName) {
+        return mPepblastApi.baixarArquivo(arquivoName);
     }
 
 }

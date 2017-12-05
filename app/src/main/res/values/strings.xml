@@ -5,4 +5,9 @@
     <string name="description_imagem_blue_of_line">Description - Imagem Blue of line</string>
     <string name="proximo">Próximo</string>
     <string name="fechar">Fechar</string>
+    <string name="minutos"> minutos</string>
+    <string name="titulo_sem_conexao_com_internet">Sem conexão com a internet</string>
+    <string name="msg_sem_conexao_internet">Por favor, habilite a internet</string>
+    <string name="ok">Ok</string>
+    <string name="sem_internet">Sem internet</string>
 </resources>

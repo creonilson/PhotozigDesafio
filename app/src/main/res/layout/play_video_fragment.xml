@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/container_cabecalho"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,14 +28,17 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/container_video"
+        android:layout_below="@+id/container_cabecalho"
         android:orientation="vertical"
+        android:background="@android:color/white"
         android:layout_width="match_parent"
-        android:layout_height="400dp">
+        android:layout_height="wrap_content">
 
         <VideoView
             android:id="@+id/video_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="200dp" />
 
         <ProgressBar
             android:id="@+id/pb_video_download"
@@ -43,13 +48,16 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/container_rodape"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/container_video"
         android:background="@color/cardview_dark_background"
         android:layout_gravity="center">
 
         <Button
+            android:id="@+id/btn_fechar"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,6 +69,7 @@
             android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"/>
 
         <Button
+            android:id="@+id/btn_proximo"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,4 +81,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

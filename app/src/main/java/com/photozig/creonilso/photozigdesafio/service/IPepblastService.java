@@ -16,6 +16,6 @@ public interface IPepblastService {
 
     Observable<Pepblast> carregarConteudosPepblast();
 
-    Observable<ResponseBody> baixarVideo(String videoName);
+    Observable<ResponseBody> baixarArquivo(String videoName);
 
 }

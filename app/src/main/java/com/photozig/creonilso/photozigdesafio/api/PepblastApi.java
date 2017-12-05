@@ -17,7 +17,7 @@ public interface PepblastApi {
     Observable<Pepblast> buscarConteudos();
 
     @Streaming
-    @GET("/pz_challenge/assets/{video_name}")
-    Observable<ResponseBody> baixarVideo(@Path("video_name")String videoName);
+    @GET("/pz_challenge/assets/{arquivo_name}")
+    Observable<ResponseBody> baixarArquivo(@Path("arquivo_name")String arquivoNome);
 
 }

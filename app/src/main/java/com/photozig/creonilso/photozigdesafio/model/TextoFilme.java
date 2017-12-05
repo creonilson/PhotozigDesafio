@@ -2,10 +2,12 @@ package com.photozig.creonilso.photozigdesafio.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 /**
  * Created by c014958 on 01/12/2017.
  */
-
+@Parcel(Parcel.Serialization.BEAN)
 public class TextoFilme {
 
     @SerializedName("txt")
