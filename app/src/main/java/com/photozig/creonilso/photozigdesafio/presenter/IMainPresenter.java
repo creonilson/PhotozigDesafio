@@ -8,7 +8,7 @@ import com.photozig.creonilso.photozigdesafio.model.Filme;
 
 public interface IMainPresenter extends Presenter {
 
-    void baixarArquivos(Filme filme);
+    void baixarArquivos(Filme filme, int posicao);
 
     Filme getProximoFilme(Filme filme);
 }

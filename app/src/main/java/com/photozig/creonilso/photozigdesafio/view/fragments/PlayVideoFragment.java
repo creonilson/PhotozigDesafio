@@ -67,7 +67,6 @@ public class PlayVideoFragment extends DialogFragment implements MediaPlayer.OnC
     private MediaPlayer mMediaPlayer;
     private static final String FILME_KEY = "filme_key";
     private Filme mFilme;
-    private Retrofit mRetrofit;
     private MediaController mMediaController;
 
     public static PlayVideoFragment newInstance(Filme filme)
@@ -86,7 +85,6 @@ public class PlayVideoFragment extends DialogFragment implements MediaPlayer.OnC
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setOnCompletionListener(this);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mRetrofit = new RetrofitClient().getInstance(getActivity());
     }
 
     @Override
@@ -136,6 +134,9 @@ public class PlayVideoFragment extends DialogFragment implements MediaPlayer.OnC
     public void tocarFilme() {
         mProgressDownloadVideo.setVisibility(View.GONE);
         try {
+            if(mMediaPlayer != null){
+                mMediaPlayer.reset();
+            }
             mMediaPlayer.setDataSource(getActivity(), Uri.parse(Constantes.LOCAL_ASSETS_DIRETORIO
                     + File.separator + mFilme.getSom()));
             mMediaPlayer.prepare();

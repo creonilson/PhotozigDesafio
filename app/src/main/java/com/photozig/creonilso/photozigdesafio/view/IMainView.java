@@ -12,7 +12,7 @@ public interface IMainView extends IView {
 
     void atualizarAdapter(List<Filme> list);
 
-    void atualizaFragmentQuandoDownloadFinalizado();
+    void onDownloadArquivoFinalizado(int posicao);
 
     void trocaVisibilidadeTextviewSemInternet(boolean temDados);
 }

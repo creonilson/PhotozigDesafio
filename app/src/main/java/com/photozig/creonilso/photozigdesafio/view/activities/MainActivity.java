@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements PepblastAdapter.P
         IMainView, PlayVideoFragment.PlayVideoFragmentListener {
 
     private static final int REQUEST_PERMISSAO_PARA_ESCREVER_NO_SDCARD = 10;
+    public static final int POSICAO_INEXISTENTE = -1;
     @BindView(R.id.rv_pabplast)
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_sem_internet)
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements PepblastAdapter.P
             case REQUEST_PERMISSAO_PARA_ESCREVER_NO_SDCARD: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //// TODO: 07/12/2017 chamar tela de videos e executar
                 } else {
                 }
                 return;
@@ -78,24 +80,13 @@ public class MainActivity extends AppCompatActivity implements PepblastAdapter.P
     }
 
     @Override
-    public void onButtonPlayClicked(View view, Filme filme, int posicao) {
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (!StoreFilesTask.existeArquivo(filme.getVideo()) && !ConnectivityUtil.isOnline(this)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.titulo_sem_conexao_com_internet)
-                    .setMessage(R.string.msg_sem_conexao_internet)
-                    .setPositiveButton(R.string.ok, null)
-                    .show();
-        } else {
-            if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
+    public void onButtonPlayClicked(View view, Filme filme) {
+        if(temInternetEArquivoNaoExiste(filme.getVideo())){
+            if(checkSelfiePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 mostrarTelaPlayVideoFragment(filme);
-                mainPresenter.baixarArquivos(filme);
+                mainPresenter.baixarArquivos(filme, POSICAO_INEXISTENTE);
             }else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSAO_PARA_ESCREVER_NO_SDCARD);
+                solicitaPermissao(Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_PERMISSAO_PARA_ESCREVER_NO_SDCARD);
             }
         }
     }
@@ -108,7 +99,13 @@ public class MainActivity extends AppCompatActivity implements PepblastAdapter.P
 
     @Override
     public void onButtonDownloadClicked(View view, Filme filme, int posicao) {
-
+       if(temInternetEArquivoNaoExiste(filme.getVideo())){
+            if(checkSelfiePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                mainPresenter.baixarArquivos(filme, posicao);
+            }else {
+                solicitaPermissao(Manifest.permission.WRITE_EXTERNAL_STORAGE, REQUEST_PERMISSAO_PARA_ESCREVER_NO_SDCARD);
+            }
+        }
     }
 
     @Override
@@ -118,8 +115,12 @@ public class MainActivity extends AppCompatActivity implements PepblastAdapter.P
     }
 
     @Override
-    public void atualizaFragmentQuandoDownloadFinalizado() {
-        mFragmentPlayVideo.tocarFilme();
+    public void onDownloadArquivoFinalizado(int posicao) {
+        if(posicao != POSICAO_INEXISTENTE) {
+            mAdapter.removeProgressDownload(posicao);
+        } else {
+            mFragmentPlayVideo.tocarFilme();
+        }
     }
 
     @Override
@@ -136,6 +137,29 @@ public class MainActivity extends AppCompatActivity implements PepblastAdapter.P
     public void onBtnProximoClicked(View view, Filme filme) {
         Filme proximoFilmo = mainPresenter.getProximoFilme(filme);
         mFragmentPlayVideo.mostrarProximoFilme(proximoFilmo);
-        mainPresenter.baixarArquivos(proximoFilmo);
+        mainPresenter.baixarArquivos(proximoFilmo, POSICAO_INEXISTENTE);
+    }
+
+    private boolean checkSelfiePermission(String permissao){
+        int permissionCheck = ContextCompat.checkSelfPermission(this, permissao);
+        return permissionCheck == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void solicitaPermissao(String permissao, int requestPermissao){
+        ActivityCompat.requestPermissions(this, new String[]{permissao},
+                requestPermissao);
+    }
+
+    private boolean temInternetEArquivoNaoExiste(String nome){
+        if (!StoreFilesTask.existeArquivo(nome) && !ConnectivityUtil.isOnline(this)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.titulo_sem_conexao_com_internet)
+                    .setMessage(R.string.msg_sem_conexao_internet)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+            return false;
+        }
+
+        return true;
     }
 }

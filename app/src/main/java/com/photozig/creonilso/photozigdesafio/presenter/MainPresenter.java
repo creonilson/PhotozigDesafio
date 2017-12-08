@@ -1,6 +1,5 @@
 package com.photozig.creonilso.photozigdesafio.presenter;
 
-import android.app.AlertDialog;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -10,9 +9,10 @@ import com.photozig.creonilso.photozigdesafio.asynctasks.StoreFilesTask;
 import com.photozig.creonilso.photozigdesafio.model.Filme;
 import com.photozig.creonilso.photozigdesafio.model.Pepblast;
 import com.photozig.creonilso.photozigdesafio.service.PepblastService;
-import com.photozig.creonilso.photozigdesafio.utils.ConnectivityUtil;
 import com.photozig.creonilso.photozigdesafio.view.IMainView;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +58,9 @@ public class MainPresenter implements IMainPresenter, Observer<Pepblast>, StoreF
     }
 
     @Override
-    public void baixarArquivos(Filme filme) {
-        mDownloadArquivosList.add(filme.getVideo());
-        mDownloadArquivosList.add(filme.getSom());
+    public void baixarArquivos(Filme filme, final int posicao) {
+       // mDownloadArquivosList.add(filme.getVideo());
+        //mDownloadArquivosList.add(filme.getSom());
 
         PepblastService pepblastService = new PepblastService(mRetrofit);
         Observable<ResponseBody> downloadVideoObservable = pepblastService.baixarArquivo(filme.getVideo())
@@ -73,12 +73,12 @@ public class MainPresenter implements IMainPresenter, Observer<Pepblast>, StoreF
 
         if(!StoreFilesTask.existeArquivo(filme.getVideo())) {
             Observable.concat(downloadVideoObservable, downloadMusicaObservable)
-                    .subscribe(new MainPresenter.DownloadObserver());
+                    .subscribe(new MainPresenter.DownloadObserver(filme, posicao));
         } else {
             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    mMainView.atualizaFragmentQuandoDownloadFinalizado();
+                    mMainView.onDownloadArquivoFinalizado(posicao);
                 }
             }, DELAY_PARA_FRAGMENT_FICAR_PRONTO);
         }
@@ -88,7 +88,12 @@ public class MainPresenter implements IMainPresenter, Observer<Pepblast>, StoreF
 
     @Override
     public Filme getProximoFilme(Filme filme) {
-        return mFilmes.get(mFilmes.indexOf(filme) + 1);
+        int indice = mFilmes.indexOf(filme);
+        if((indice + 1) >= mFilmes.size()){
+            return mFilmes.get(indice);
+        } else {
+            return mFilmes.get(indice + 1);
+        }
     }
 
     @Override
@@ -112,20 +117,30 @@ public class MainPresenter implements IMainPresenter, Observer<Pepblast>, StoreF
     public void onComplete() {}
 
     @Override
-    public void onDownloadFinalizado(String nomeArquivo) {
-        mMainView.atualizaFragmentQuandoDownloadFinalizado();
+    public void onDownloadFinalizado(int posicao) {
+        mMainView.onDownloadArquivoFinalizado(posicao);
     }
 
     private class DownloadObserver implements Observer<ResponseBody> {
+
+        public static final int POSICAO_VIDEO = 0;
+        public static final int POSICAO_SOM = 1;
+        private Filme filme;
+        private int posicao;
+        private List<InputStream> stream;
+
+        public DownloadObserver(Filme filme,int posicao) {
+            this.filme = filme;
+            this.posicao = posicao;
+            this.stream = new ArrayList<>();
+        }
 
         @Override
         public void onSubscribe(Disposable d) {}
 
         @Override
         public void onNext(ResponseBody value) {
-            String nomeArquivo = mDownloadArquivosList.remove(PRIMEIRO_ITEM_DA_LISTA);
-            StoreFilesTask storeFilesTask = new StoreFilesTask(nomeArquivo, MainPresenter.this);
-            storeFilesTask.execute(value.byteStream());
+           stream.add(value.byteStream());
         }
 
         @Override
@@ -134,7 +149,11 @@ public class MainPresenter implements IMainPresenter, Observer<Pepblast>, StoreF
         }
 
         @Override
-        public void onComplete() {}
+        public void onComplete() {
+            StoreFilesTask storeFilesTask = new StoreFilesTask(posicao, filme, MainPresenter.this);
+            storeFilesTask.execute(stream.get(POSICAO_VIDEO), stream.get(POSICAO_SOM));
+
+        }
     }
 
 }

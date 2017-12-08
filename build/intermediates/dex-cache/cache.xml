@@ -2,67 +2,13 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_55b368899ea6e83cf39e19346ba4b1fd38784b48\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\C014958\.android\build-cache\2f469d7966fcec389ffe5adfc6eb439518320d84\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="6a2bcb61342d09fe9acf55c9daf63961c8866cc0">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_c84b79b1ee37f83f54036a3570bd3d9fe71dbd4d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\C014958\.gradle\caches\modules-2\files-2.1\org.parceler\parceler-api\1.1.9\90a1d1effa99070aa6325918f05dd2bad1704b\parceler-api-1.1.9.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="C:\Users\Creonilso\.gradle\caches\modules-2\files-2.1\org.parceler\parceler-api\1.1.9\90a1d1effa99070aa6325918f05dd2bad1704b\parceler-api-1.1.9.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.3"
         sha1="0090a1d1effa99070aa6325918f05dd2bad1704b">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10\parceler-api-1.1.9_22509e3529f1ae262d64d992ca07868bd96d14e1\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\C014958\.gradle\caches\modules-2\files-2.1\com.squareup.picasso\picasso\2.5.2\7446d06ec8d4f7ffcc53f1da37c95f200dcb9387\picasso-2.5.2.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10\picasso-2.5.2_346daf91b58711660b2c1c9bd1f1b2b7ecf50373\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\C014958\.android\build-cache\3179eb32ecf28e4fea291d8f30c1a14df561f668\output\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="914f5d3e3ace66080e59613708f06d129a222e25">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_a559098b26fad79023c833143e72d3bbc4765133\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\C014958\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife-annotations\8.8.1\bc373fb6bc7bca3035041b924f158fd2b946ee8d\butterknife-annotations-8.8.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="bc373fb6bc7bca3035041b924f158fd2b946ee8d">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10\butterknife-annotations-8.8.1_84a6854b88c05e6a778886ac8b8da331450f81ce\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.3"
-        sha1="ac81c0ea3b30f74354cfde3edbdf00b68db41f77">
-        <dex dex="C:\Users\C014958\Documents\creonilso\PhotozigDesafio\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b27f6afbd6089696712ed5eab9ac98dfe5f031ce\classes.dex" />
+        <dex dex="C:\Users\Creonilso\Documents\photozig\PhotozigDesafio\app\build\intermediates\pre-dexed\debug\parceler-api-1.1.9_b9ecede274680e7c6c28909e354db3663c791caa.jar" />
     </item>
 
 </items>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:layout_width="match_parent"
@@ -18,13 +18,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Titulo do video"/>
+            tools:text="Titulo do video"/>
 
         <TextView
             android:id="@+id/txv_tempo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="30 segundos"/>
+            tools:text="30 segundos"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -64,9 +64,7 @@
             android:background="@color/colorAccent"
             android:drawableStart="@android:drawable/ic_menu_close_clear_cancel"
             android:text="@string/fechar"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:drawableLeft="@android:drawable/ic_menu_close_clear_cancel"/>
+            android:layout_marginEnd="2dp"/>
 
         <Button
             android:id="@+id/btn_proximo"
@@ -75,10 +73,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:drawableStart="@android:drawable/ic_media_next"
-            android:text="@string/proximo"
-            android:drawableLeft="@android:drawable/ic_media_next" />
+            android:text="@string/proximo"/>
 
     </LinearLayout>
-
-
 </RelativeLayout>

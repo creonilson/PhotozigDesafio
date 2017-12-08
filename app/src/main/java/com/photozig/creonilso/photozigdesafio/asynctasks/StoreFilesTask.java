@@ -2,6 +2,7 @@ package com.photozig.creonilso.photozigdesafio.asynctasks;
 import android.os.AsyncTask;
 
 import com.photozig.creonilso.photozigdesafio.Constantes;
+import com.photozig.creonilso.photozigdesafio.model.Filme;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,19 +14,33 @@ import java.io.OutputStream;
  * Created by Creonilso on 04/12/2017.
  */
 
-public class StoreFilesTask extends AsyncTask<InputStream, Integer, String> {
+public class StoreFilesTask extends AsyncTask<InputStream, Integer, Integer> {
 
-    private String mNomeArquivo;
+    public static final int POSICAO_VIDEO = 0;
+    public static final int POSICAO_SOM = 1;
+    private Filme mfilme;
     private StoreFileListener mStoreFileListener;
+    private int posicao;
 
-    public StoreFilesTask(String nome, StoreFileListener mStoreFileListener) {
-        this.mNomeArquivo = nome;
+    public StoreFilesTask(int posicao, Filme filme, StoreFileListener mStoreFileListener) {
+        this.mfilme = filme;
         this.mStoreFileListener = mStoreFileListener;
+        this.posicao = posicao;
     }
 
-    protected String doInBackground(InputStream... inputStreams) {
-        InputStream inputStream = inputStreams[0];
-        final File file = new File(Constantes.LOCAL_ASSETS_DIRETORIO, mNomeArquivo);
+    protected Integer doInBackground(InputStream... inputStreams) {
+        InputStream inputStreamVideo = inputStreams[POSICAO_VIDEO];
+        final File fileVideo = new File(Constantes.LOCAL_ASSETS_DIRETORIO, mfilme.getVideo());
+        salvarArquivo(inputStreamVideo, fileVideo);
+
+        InputStream inputStreamSom = inputStreams[POSICAO_SOM];
+        final File fileMusica = new File(Constantes.LOCAL_ASSETS_DIRETORIO, mfilme.getSom());
+        salvarArquivo(inputStreamSom, fileMusica);
+
+        return posicao;
+    }
+
+    private void salvarArquivo(InputStream inputStream, File file) {
         if(!file.exists()) {
             try {
 
@@ -48,8 +63,6 @@ public class StoreFilesTask extends AsyncTask<InputStream, Integer, String> {
                 }
             }
         }
-
-        return file.getName();
     }
 
     protected void onProgressUpdate(Integer... progress) {
@@ -57,10 +70,8 @@ public class StoreFilesTask extends AsyncTask<InputStream, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String nome) {
-        if(nome.contains(".mp3")) {
-            mStoreFileListener.onDownloadFinalizado(nome);
-        }
+    protected void onPostExecute(Integer posicao) {
+        mStoreFileListener.onDownloadFinalizado(posicao);
 
     }
 
@@ -75,7 +86,7 @@ public class StoreFilesTask extends AsyncTask<InputStream, Integer, String> {
 
     public interface StoreFileListener {
 
-        void onDownloadFinalizado(String path);
+        void onDownloadFinalizado(int posicao);
 
     }
 }

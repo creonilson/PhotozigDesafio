@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,7 +16,10 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,11 +36,18 @@ import static com.photozig.creonilso.photozigdesafio.Constantes.PEPBLAST_BASE_UR
 public class PepblastAdapter extends RecyclerView.Adapter<PepblastAdapter.ViewHolder> {
 
     private List<Filme> mDataset;
+    private List<Boolean> mProgressList;
     private PepblastAdapterListener mPepblastAdapterListener;
 
     public PepblastAdapter(PepblastAdapterListener pepblastAdapterListener) {
         this.mPepblastAdapterListener = pepblastAdapterListener;
         mDataset = new ArrayList<>();
+        mProgressList = new ArrayList<>();
+    }
+
+    public void removeProgressDownload(int posicao) {
+        mProgressList.set(posicao, false);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -47,6 +58,8 @@ public class PepblastAdapter extends RecyclerView.Adapter<PepblastAdapter.ViewHo
         ImageView mImvFilme;
         @BindView(R.id.progress_imagem_fundo)
         ProgressBar mProgressImagemFundo;
+        @BindView(R.id.btn_baixar)
+        Button mBtnBaixar;
 
         ViewHolder(View v) {
             super(v);
@@ -55,21 +68,25 @@ public class PepblastAdapter extends RecyclerView.Adapter<PepblastAdapter.ViewHo
 
         @OnClick(R.id.btn_baixar)
         public void onButtonDownloadClicked(View view){
-            //baixar imagem
+            mProgressImagemFundo.setVisibility(View.VISIBLE);
+            mProgressList.set(getAdapterPosition(), true);
+            view.setEnabled(false);
             PepblastAdapter.this.getPepblastAdapterListener().onButtonDownloadClicked(view, mDataset.get(getAdapterPosition()), getAdapterPosition());
         }
 
         @OnClick(R.id.btn_visualizar)
         public void onButtonPlayClicked(View view){
-            //ir para a pagina de exibir videos
-            PepblastAdapter.this.getPepblastAdapterListener().onButtonPlayClicked(view, mDataset.get(getAdapterPosition()), getAdapterPosition());
+            PepblastAdapter.this.getPepblastAdapterListener().onButtonPlayClicked(view, mDataset.get(getAdapterPosition()));
         }
 
     }
 
     public void setDataset(List<Filme> myDataset) {
         mDataset = myDataset;
+        mProgressList = new ArrayList<>(Arrays.asList(new Boolean[mDataset.size()]));
+        Collections.fill(mProgressList, Boolean.FALSE);
     }
+
 
     @Override
     public PepblastAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
@@ -85,6 +102,12 @@ public class PepblastAdapter extends RecyclerView.Adapter<PepblastAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mTextView.setText(mDataset.get(position).getNome());
         final String urlImagem = PEPBLAST_BASE_URL + PEPBLAST_ASSETS_PATH + mDataset.get(position).getImagem();
+        if(mProgressList.get(position)){
+            holder.mProgressImagemFundo.setVisibility(View.VISIBLE);
+        } else {
+            holder.mProgressImagemFundo.setVisibility(View.GONE);
+            holder.mBtnBaixar.setEnabled(true);
+        }
         Picasso picasso = Picasso.with(holder.mImvFilme.getContext());
         picasso.setIndicatorsEnabled(true);
         picasso.load(urlImagem).error(android.R.drawable.presence_offline)
@@ -102,7 +125,6 @@ public class PepblastAdapter extends RecyclerView.Adapter<PepblastAdapter.ViewHo
                 });
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset == null ? 0 : mDataset.size();
@@ -112,9 +134,11 @@ public class PepblastAdapter extends RecyclerView.Adapter<PepblastAdapter.ViewHo
         return mPepblastAdapterListener;
     }
 
+
+
     public interface PepblastAdapterListener {
 
-        void onButtonPlayClicked(View view, Filme filme, int posicao);
+        void onButtonPlayClicked(View view, Filme filme);
         void onButtonDownloadClicked(View view, Filme filme, int posicao);
 
     }

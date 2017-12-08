@@ -1,6 +1,7 @@
 package com.photozig.creonilso.photozigdesafio.api;
 
 import com.photozig.creonilso.photozigdesafio.model.Pepblast;
+
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
@@ -8,7 +9,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Streaming;
 
 /**
- * Created by c014958 on 01/12/2017.
+ * Created by Creonilso on 01/12/2017.
  */
 
 public interface PepblastApi {
